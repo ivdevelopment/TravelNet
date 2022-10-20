@@ -4,6 +4,7 @@
 using TravelNet.Vakanties;
 using TravelNet.Verblijven;
 using TravelNet;
+using System.Text.RegularExpressions;
 
 Hotel albergoNero = new Hotel("Albergo Nero", 120m, true, true, 0m);
 Hotel capella = new Hotel("Capella", 150m, false, false, null);
@@ -113,9 +114,17 @@ List<Vakantie> vakanties = new()
 };
 
 var vakantiesInVolgorde = from vakantie in vakanties
-                          group vakantie by vakantie.Naam;
+                          group vakantie by vakantie.Naam into groep
+                          select new { Naam = groep.Key, Vakantie = groep.ToList() };
 
-foreach (var vakantie in vakanties)
+foreach (var item in vakantiesInVolgorde)
 {
-    vakantie.ToonGegevens();
+    Console.WriteLine($"{item.Naam}s");
+    Console.WriteLine("****************************************************************");
+    foreach (var vakantie in item.Vakantie)
+    {
+        vakantie.ToonGegevens();
+        Console.WriteLine();
+    }
+    Console.WriteLine();
 }

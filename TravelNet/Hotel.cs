@@ -8,8 +8,8 @@ namespace TravelNet.Verblijven
             WellnessprijsPerDag = wellnessprijsPerDag ?? 0;
             Internet = internet;
         }
-        private decimal wellnessprijsPerDagValue;
-        public decimal WellnessprijsPerDag
+        private decimal? wellnessprijsPerDagValue;
+        public decimal? WellnessprijsPerDag
         {
             get
             {
@@ -17,10 +17,6 @@ namespace TravelNet.Verblijven
             }
             set
             {
-                if (value > 0)
-                    wellnessprijsPerDagValue += value;
-                if (value == null)
-                    wellnessprijsPerDagValue = value;
                 wellnessprijsPerDagValue = value;
 
             }
@@ -28,6 +24,11 @@ namespace TravelNet.Verblijven
         public bool Internet { get; set; }
         private readonly List<Formule> beschikbareVerblijfsformulesLijst = new() { Formule.Ontbijt, Formule.HalfPension, Formule.VolPension };
         public override List<Formule> BeschikbareVerblijfsformules => beschikbareVerblijfsformulesLijst;
-        public override decimal BerekenPrijsPerDag() => BasisprijsPerDag + WellnessprijsPerDag;
+        public override decimal BerekenPrijsPerDag()
+        {
+            if (WellnessprijsPerDag != null)
+                BasisprijsPerDag += (decimal)WellnessprijsPerDag;
+            return BasisprijsPerDag;
+        }
     }
 }

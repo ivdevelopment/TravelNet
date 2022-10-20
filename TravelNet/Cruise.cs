@@ -25,25 +25,15 @@ namespace TravelNet.Vakanties
 
         public override void ToonGegevens()
         {
-            Console.WriteLine("Cruisevakanties");
-            Console.WriteLine("**************************************************************************************");
             Console.WriteLine($"Boekingsnr: {BoekingsNr}   Bestemming: {Bestemming}");
             Console.WriteLine($" Vertrekdatum: {Vertrekdatum.Date.ToShortDateString()}    Terugkeerdatum: {Terugkeerdatum.Date.ToShortDateString()}");
             Console.WriteLine(" Routes:");
             Console.WriteLine($"  {Vertrekpunt}     {Eindpunt}");
-            foreach (var aanlegplaats in Aanlegplaatsen)
-            {
-                Console.WriteLine(aanlegplaats);
-            }
+            Aanlegplaatsen.ForEach(aanlegplaats => Console.WriteLine(aanlegplaats));
             Console.WriteLine($" Totale verblijfsprijs: {BerekenVakantieprijs()} euro");
-/*            Console.WriteLine($" Huurprijs: {Vliegticketprijs}");
-*/            Console.WriteLine(" activiteiten:");
-            decimal totaalBedragActiviteiten = 0;
-            foreach (var activiteit in Activiteiten)
-            {
-                activiteit.ToString();
-                totaalBedragActiviteiten += activiteit.BerekenPrijs();
-            }
+            Console.WriteLine(" activiteiten:");
+            Activiteiten.ForEach(activiteit => Console.WriteLine($"    {activiteit}"));
+            var totaalBedragActiviteiten = Activiteiten.Select(activiteit => activiteit.BerekenPrijs()).Sum();
             Console.WriteLine($" Totaal bedrag activiteiten: {totaalBedragActiviteiten} euro");
             Console.WriteLine($"Totale vakantieprijs: {BerekenVakantieprijs() + totaalBedragActiviteiten} euro");
         }

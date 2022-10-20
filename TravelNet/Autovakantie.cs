@@ -31,28 +31,17 @@ namespace TravelNet.Vakanties
         }
         public override decimal BerekenVakantieprijs()
         {
-            decimal totalePrijs = 0m;
-            foreach (var route in Routes)
-            {
-                totalePrijs += route.BerekenVerblijfsPrijsPerDag();
-            }
-            totalePrijs += Huurprijs;
-            return totalePrijs;
+            var prijsRoutes = Routes.Select(route => route.BerekenVerblijfsPrijsPerDag()).Sum();
+            prijsRoutes += Huurprijs;
+            return prijsRoutes;
         }
         
         public override void ToonGegevens()
         {
-            Console.WriteLine("Autovakanties");
-            Console.WriteLine("**************************************************************************************");
             Console.WriteLine($"Boekingsnr: {BoekingsNr}   Bestemming: {Bestemming}");
             Console.WriteLine($" Vertrekdatum: {Vertrekdatum.Date.ToShortDateString()}    Terugkeerdatum: {Terugkeerdatum.Date.ToShortDateString()}");
-            Console.WriteLine(" Routes:");
-            decimal totaalBedragRoutes = 0;
-            foreach (var route in Routes)
-            {
-                Console.WriteLine(route.ToString());
-                totaalBedragRoutes += route.BerekenVerblijfsPrijsPerDag();
-            }
+            Console.WriteLine(" Routes:"); 
+            Routes.ForEach(route => Console.WriteLine(route.ToString()));
             Console.WriteLine($" Totale verblijfsprijs: {BerekenVakantieprijs()} euro");
             Console.WriteLine($" Huurprijs: {Huurprijs} euro");
             ToonActiviteiten();

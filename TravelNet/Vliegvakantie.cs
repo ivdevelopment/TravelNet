@@ -19,20 +19,14 @@ namespace TravelNet.Vakanties
         public decimal Vliegticketprijs { get; set; }
         public override decimal BerekenVakantieprijs()
         {
-            decimal totalePrijs = 0;
             var timespan = Terugkeerdatum - Vertrekdatum;
             int aantalDagen = timespan.Days;
-            foreach (var activiteit in Activiteiten)
-            {
-                totalePrijs += activiteit.BerekenPrijs();
-            }
+            var totaalactiviteiten = Activiteiten.Select(activiteit => activiteit.BerekenPrijs()).Sum();
 
-            return (Vliegticketprijs + totalePrijs) * aantalDagen;
+            return (Vliegticketprijs + totaalactiviteiten) * aantalDagen;
         }
         public override void ToonGegevens()
         {
-            Console.WriteLine("Vliegvakanties");
-            Console.WriteLine("**************************************************************************************");
             Console.WriteLine($"Boekingsnr: {BoekingsNr}   Bestemming: {Bestemming}");
             Console.WriteLine($" Vertrekdatum: {Vertrekdatum.Date.ToShortDateString()}    Terugkeerdatum: {Terugkeerdatum.Date.ToShortDateString()}");
             Console.WriteLine(" Routes:");
@@ -40,12 +34,8 @@ namespace TravelNet.Vakanties
             Console.WriteLine($" Totale verblijfsprijs: {BerekenVakantieprijs()} euro");
             Console.WriteLine($" Huurprijs: {Vliegticketprijs} euro");
             Console.WriteLine(" Activiteiten:");
-            decimal totaalBedragActiviteiten = 0;
-            foreach (var activiteit in Activiteiten)
-            {
-                Console.WriteLine($"    {activiteit}");
-                totaalBedragActiviteiten += activiteit.BerekenPrijs();
-            }
+            Activiteiten.ForEach(activiteit => Console.WriteLine($"    {activiteit}"));
+            decimal totaalBedragActiviteiten = Activiteiten.Select(activiteit => activiteit.BerekenPrijs()).Sum();
             Console.WriteLine($" Totaal bedrag activiteiten: {totaalBedragActiviteiten} euro");
             Console.WriteLine($"Totale vakantieprijs: {BerekenVakantieprijs() + totaalBedragActiviteiten} euro");
         }

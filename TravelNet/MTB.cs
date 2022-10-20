@@ -9,14 +9,6 @@ namespace TravelNet.Vakanties
 {
     internal class MTB : IActiviteit
     {
-        /*public MTB(string naam, decimal prijsUitrusting, decimal huurprijsFietsPerUur, int aantalUren)
-        {
-            Naam = naam;
-            PrijsUitrusting = prijsUitrusting;
-            HuurprijsFietsPerUur = huurprijsFietsPerUur;
-            AantalUren = aantalUren;
-        }*/
-
         public decimal PrijsUitrusting { get; set; }
         public decimal HuurprijsFietsPerUur { get; set; }
         public int AantalUren { get; set; }

@@ -43,12 +43,8 @@ namespace TravelNet.Vakanties
         public void ToonActiviteiten()
         {
             Console.WriteLine(" Activiteiten:");
-            decimal totaleKostprijs = 0;
-            foreach (var activiteit in Activiteiten)
-            {
-                Console.WriteLine($"    {activiteit.Naam} ({activiteit.BerekenPrijs()} euro)");
-                totaleKostprijs += activiteit.BerekenPrijs();
-            }
+            Activiteiten.ForEach(activiteit => Console.WriteLine($"    {activiteit.Naam} ({activiteit.BerekenPrijs()} euro)"));
+            var totaleKostprijs = Activiteiten.Select(activiteit => activiteit.BerekenPrijs()).Sum();
             Console.WriteLine($" Totaal bedrag activiteiten: {totaleKostprijs} euro");
         }
         public abstract void ToonGegevens();
